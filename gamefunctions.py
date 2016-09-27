@@ -3,21 +3,23 @@ from random import randrange
 
 def new_game():
     dealer_played = False
+    dealer_deck = []
     bet = place_bet()
     p = Player(bet)
 
     pc1,pc2,dc1 = deal()
     p.decks[0].append(pc1)
     p.decks[0].append(pc2)
+    dealer_deck.append(dc1)
 
     display(p)
     global is_stand = False
     response_dict = {'h':p.hit,'s':p.stand,'d':p.double,'sp':p.split}
 
-    for deck in p.decks:
+    for handnum,deck in enumerate(p.decks):
         while is_stand == False:
             action = ask_action()
-            response_dict[action]()
+            response_dict[action](handnum)
             display(p)
             cardsum = p.score(deck)
             if cardsum > 21:
@@ -31,7 +33,8 @@ def new_game():
 
 
 def display(player):
-    pass
+    print "DEALER: {0}".format(dealer_deck)
+    print "YOU:    {0}".format(player.decks)
 
 def place_bet():
     bet = int(raw_input("Place your bet amount: "))
