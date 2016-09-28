@@ -24,3 +24,12 @@ class Player:
         decks.append([])
         decks[1][0] = decks[0][1]
         decks[0].remove(decks[0][1])
+
+class Game:
+    pass
+
+# class Hand:
+#     pass
+#
+# class Deck:
+#     pass
