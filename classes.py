@@ -28,8 +28,8 @@ class Player:
 class Game:
     pass
 
-# class Hand:
-#     pass
+class Hand:
+    pass
 #
 # class Deck:
 #     pass
