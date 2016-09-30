@@ -30,6 +30,6 @@ class Game:
 
 class Hand:
     pass
-#
-# class Deck:
-#     pass
+
+class Deck:
+    pass
