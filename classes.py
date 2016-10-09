@@ -2,28 +2,31 @@ from random import randrange
 
 class Player:
 
-    def __init__(self,bet,cash=100,decks=[[]]):
-        self.bet = bet
-        self.winnings = winnings
+    def __init__(self):
+        self.hand_list = [Hand()]
+        self.cash = 100
+        self.current_hand = 0
+        self.is_stand = False
+        self.current_hand = self.hand_list[0]
+        self.busted = False
 
-    def score(self,deck):
-        score = sum(deck)
-        return score
-
-    def hit(self,hn):
-        card = randrange(1,14)
-        self.decks[hn].append(card)
+    def hit(self):
+        new_card = Card()
+        self.current_hand.append(new_card.value)
 
     def stand(self):
-        is_stand = True
+        self.is_stand = True
 
     def double(self):
-        self.bet *= 2
+        self.current_hand.bet *= 2
+        hit()
+        self.is_stand = True
 
     def split(self,hn):
-        decks.append([])
-        decks[1][0] = decks[0][1]
-        decks[0].remove(decks[0][1])
+        new_hand = Hand()
+        new_hand.cards.append(self.current_hand.cards.pop()])
+        self.hand_list.append(new_hand)
+
 
 class Game:
     pass
