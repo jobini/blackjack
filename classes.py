@@ -1,10 +1,12 @@
 from random import randrange
+from time import sleep
 
 class Game:
-    def __init__(self):
-        self.p = Player()
+    def __init__(self,cash=100):
+        self.p = Player(cash)
         self.dealer = Dealer()
         self.beginning = True
+        self.is_bj = False
 
     def deal(self):
         print "Cash:",self.p.cash
@@ -15,16 +17,18 @@ class Game:
         print 'You: {0}'.format(self.p.current_hand.cards)
 
     def ask_bet(self):
-        try:
-            bet_amount = int(raw_input("Enter bet amount for this hand: "))
-        except:
-            print "Enter a valid amount!"
-            self.ask_bet()
-
+        while True:
+            try:
+                bet_amount = int(raw_input("Enter bet amount: "))
+                break
+            except ValueError:
+                print "Enter a valid amount!"
         while bet_amount > self.p.cash:
             print "You don't have that much money. Try again."
-            self.ask_bet()
-
+            bet_amount = int(raw_input("Enter bet amount: "))
+        while bet_amount <= 0:
+            print "Are you kidding me? (-_-)"
+            bet_amount = int(raw_input("Enter bet amount: "))
         print "Bet amount:",bet_amount
         return bet_amount
 
@@ -49,9 +53,9 @@ class Game:
 
 class Player:
 
-    def __init__(self):
+    def __init__(self,cash):
         self.hand_list = [Hand()]
-        self.cash = 100
+        self.cash = cash
         self.is_stand = False
         self.current_hand = self.hand_list[0]
         self.busted = False
@@ -77,18 +81,27 @@ class Player:
         action_dict = {'h':self.hit,'s':self.stand,'d':self.double,'p':self.split}
         action_dict[action]()
 
+    def reset(self):
+        self.is_stand = False
+        self.busted = False
+
 class Dealer(Player):
 
-    def play(self):
-        while (not self.busted):
-            self.hit()
-            if self.current_hand.score > 17:
-                self.busted = True
+    def __init__(self):
+        self.hand_list = [Hand()]
+        self.is_stand = False
+        self.current_hand = self.hand_list[0]
+        self.busted = False
 
+    def play(self):
+        while (self.current_hand.score() < 17):
+            self.hit()
             self.display()
+        return self.current_hand.score()
 
     def display(self):
         print 'Dealer: {0}'.format(self.current_hand.cards)
+        sleep(1)
 
 class Hand:
 
