@@ -37,7 +37,7 @@ def main(cash=100):
             if g.p.busted:
                 print "You got busted! You lose this hand!"
                 g.p.cash -= hand.bet
-                print 'Cash: {0}'.format(g.p.cash)
+                print 'Cash: {0}'.format(max(0,g.p.cash))
             else:
                 dealer_score = g.dealer.play()
                 if dealer_score > 21:
@@ -53,11 +53,11 @@ def main(cash=100):
                 else:
                     print "You lose this hand!"
                     g.p.cash -= hand.bet
-                    print 'Cash: {0}'.format(g.p.cash)
+                    print 'Cash: {0}'.format(max(0,g.p.cash))
 
     reply = raw_input("Play again? [y]: ")
     if reply == 'y':
-        if g.p.cash == 0:
+        if g.p.cash <= 0:
             g.p.cash = 100
         main(g.p.cash)
 
